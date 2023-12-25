@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
 
-  // const URL = 'http://localhost:4000';
+  // const URL = 'https://chat-web-342z.onrender.com';
   // const socket = io(URL);
 
   // socket.on('connect', ()=>{

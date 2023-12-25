@@ -2,7 +2,7 @@
 import axios from "axios"
 
 const axiosPublic = axios.create({
-    baseURL: 'http://localhost:4000',
+    baseURL: 'https://chat-web-342z.onrender.com',
     // withCredentials : true,
 })
 function UseAxiosPublic() {

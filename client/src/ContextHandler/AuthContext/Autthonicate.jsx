@@ -7,7 +7,7 @@ import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
 export const authContext = createContext(null);
 
 const Autthonicate = ({ children }) => {
-    const URL = 'http://localhost:4000';
+    const URL = 'https://chat-web-342z.onrender.com';
     const [userInfo, setUserInfo] = useState({});
     const [currentUser, setCurrentUser] = useState({})
     const [loading, setLoading] = useState(true);

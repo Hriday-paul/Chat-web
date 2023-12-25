@@ -6,12 +6,14 @@ import ChatHome from "../Pages/ChatHome/ChatHome";
 import Private from "../Pages/Shared/Private/Private";
 import ChatBox from "../Pages/Shared/ChatBox/ChatBox";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic/UseAxiosPublic";
+import ErrorPage from '../Pages/ErrorPage/ErrorPage'
 
 const axiosPublic = UseAxiosPublic();
 
 const rout = createBrowserRouter([
     {
         path: '/',
+        errorElement : <ErrorPage></ErrorPage>,
         element: <Private><ChatHome></ChatHome></Private>,
         children: [
             {

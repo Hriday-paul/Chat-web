@@ -14,7 +14,7 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = serverio(server, {
     cors: {
-        origin: "http://localhost:5173",  // Adjust this to your actual client's origin
+        origin: "https://chat-webs.netlify.app",  // Adjust this to your actual client's origin
         methods: ["GET", "POST"]
     }
 });
