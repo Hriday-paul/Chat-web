@@ -14,7 +14,8 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = serverio(server, {
     cors: {
-        origin: "https://chat-webs.netlify.app",  // Adjust this to your actual client's origin
+        origin: "https://chat-webs.netlify.app", // Adjust this to my actual client's origin
+        // origin: "http://localhost:5174",  
         methods: ["GET", "POST"]
     }
 });
@@ -100,40 +101,14 @@ async function run() {
                 const updateDoc = {
                     $set: req.body
                 };
-                const findData = await userList.findOne(filter);
-                if (findData) {
-                    res.status(403).send({ successMsg: false })
-                }
-                else {
-                    const result = await userList.updateOne(filter, updateDoc, options);
-                    res.status(200).send({ successMsg: true, userData: { ...req.body, id: result.upsertedId } });
-                }
+                const result = await userList.updateOne(filter, updateDoc, options);
+                res.status(200).send(result);
             }
             catch (err) {
                 res.status(402).send({ err })
             }
         })
 
-        // find a user
-        app.put('/loginUser', async (req, res) => {
-            try {
-                const filter = { email: req.body.email };
-                const findData = await userList.findOne(filter);
-
-                if (!findData) {
-                    res.status(403).send({ successMsg: false })
-                }
-                else if (findData.password == req.body.password) {
-                    res.status(200).send({ successMsg: true, userData: { ...findData } });
-                }
-                else {
-                    res.status(403).send({ successMsg: false })
-                }
-            }
-            catch (err) {
-                res.status(402).send({ err })
-            }
-        })
 
         //get all users
         app.get('/users', async (req, res) => {
@@ -157,10 +132,10 @@ async function run() {
                 };
                 const query = {
                     name: {
-                        $regex : req.params.searchTxt,
-                        $options : 'i'
+                        $regex: req.params.searchTxt,
+                        $options: 'i'
                     }
-                } 
+                }
                 const users = await userList.find(query, options).toArray();
                 res.status(200).send(users);
             }

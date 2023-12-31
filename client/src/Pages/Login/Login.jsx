@@ -8,9 +8,9 @@ import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
 // import { Helmet } from 'react-helmet-async';
 
 function Login() {
-  const { loginUser, googleLogin, setUserInfo } = useContext(authContext)
+  const { loginUser, googleLogin } = useContext(authContext)
   const [passwordVisible, setPasswordVisible] = useState(false)
-  const { state } = useLocation();
+  //const { state } = useLocation();
   const [loader, setLoader] = useState(false);
   const navig = useNavigate();
   const axiosPublic = UseAxiosPublic();
@@ -22,55 +22,37 @@ function Login() {
     const email = form.email.value;
     const password = form.password.value;
 
-    axiosPublic.put("/loginUser", { email, password})
-      .then(({ data }) => {
-        if (data.successMsg) {
-          setUserInfo(data.userData)
-          form.reset();
-          setLoader(false)
-          navig('/')
-        } else {
-          setLoader(false)
-          toast.error('Enter your valid email or password !')
-        }
-
+    loginUser(email, password)
+      .then(() => {
+        setLoader(false)
+        form.reset();
+        navig('/')
+        //state ? navig(`${state}`) : navig(`/`)
       })
       .catch(() => {
-        toast.error('Enter your valid email or password !')
         setLoader(false)
+        toast.error('Enter valid email or password')
       })
-
-    // loginUser(email, password)
-    //   .then(() => {
-    //     setLoader(false)
-    //     form.reset();
-    //     //state ? navig(`${state}`) : navig(`/`)
-    //     navig('/chat')
-    //   })
-    //   .catch(() => {
-    //     setLoader(false)
-    //     toast.error('Enter valid email or password')
-    //   })
   }
 
-  // const handleGoogleSign = () => {
-  //   googleLogin()
-  //     .then(({ user }) => {
-  //       const { email, displayName, phoneNumber, photoURL } = user;
-  //       axiosPublic.put("/addUser", { email, name: displayName, password: null, phone: phoneNumber, photoUrl: photoURL })
-  //         .then(() => {
-  //           setLoader(false)
-  //           navig('/chat')
-  //         })
-  //         .catch(() => {
-  //           setLoader(false)
-  //         })
-  //     })
-  //     .catch(() => {
-  //       setLoader(false)
-  //       toast.error('Enter valid email or password')
-  //     })
-  // }
+  const handleGoogleSign = () => {
+    googleLogin()
+      .then(({ user }) => {
+        const { email, displayName, phoneNumber, photoURL } = user;
+        axiosPublic.put("/addUser", { email, name: displayName, password: null, phone: phoneNumber, photoUrl: photoURL })
+          .then(() => {
+            setLoader(false)
+            navig('/')
+          })
+          .catch(() => {
+            setLoader(false)
+          })
+      })
+      .catch(() => {
+        setLoader(false)
+        toast.error('Something wents wrong, try again.')
+      })
+  }
 
   return (
     <>
@@ -122,12 +104,12 @@ function Login() {
                     Dont have an account? <Link to="/register" className="font-medium text-gray-800 hover:underline">Register now</Link>
                   </p>
 
-                  {/* <div className="group w-full flex justify-center items-center mt-5 h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100 cursor-pointer" onClick={handleGoogleSign}>
+                  <div className="group w-full flex justify-center items-center mt-5 h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100 cursor-pointer" onClick={handleGoogleSign}>
                     <div className="relative flex justify-between items-center space-x-7">
                       <img src="https://tailus.io/sources/blocks/social/preview/images/google.svg" className="absolute left-0 w-4" alt="google logo" />
                       <span className="text-base font-bold text-gray-700 transition duration-300 group-hover:text-blue-600 sm:text-base">Continue with Google</span>
                     </div>
-                  </div> */}
+                  </div>
                 </form>
               </div>
             </div>

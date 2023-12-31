@@ -13,7 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
 
 function Register() {
-    const { setUserInfo } = useContext(authContext);
+    const { creatUser } = useContext(authContext);
     const [passError, setPassError] = useState("");
     const { state } = useLocation();
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -56,53 +56,35 @@ function Register() {
             setPassError("pasword must use an special character")
         }
         else {
+            // when photourl is true
             if (profileImg) {
                 UploadPhoto(profileImg)
                     .then(({ data }) => {
                         const imgSource = data.data.display_url;
-
-                        axiosPublic.put("/addUser", { email: email, name, password, phone, photoUrl: imgSource })
-                            .then(({ data }) => {
-                                if (data.successMsg) {
-                                    setUserInfo(data.userData)
-                                    form.reset();
-                                    setLoader(false)
-                                    setProfileImg(null);
-                                    navig('/')
-                                } else {
-                                    setLoader(false)
-                                    toast.error('Email already exist, Enter your valid email')
-                                }
+                        creatUser(email, password)
+                            .then(({ user }) => {
+                                updateProfile(user, {
+                                    displayName: name,
+                                    photoURL: imgSource
+                                })
+                                axiosPublic.put("/addUser", { email : user.email, name, password, phone, photoUrl: imgSource })
+                                    .then(() => {
+                                        form.reset();
+                                        setLoader(false)
+                                        setProfileImg(null);
+                                        navig('/')
+                                    })
+                                    .catch(()=>{
+                                        toast.error('Something wents wrong, try again.')
+                                        setLoader(false)
+                                    })
 
                             })
                             .catch(() => {
-                                toast.error('Enter your valid email or password !')
+                                toast.error("Email already exist")
                                 setLoader(false)
                             })
 
-                        // creatUser(email, password)
-                        //     .then(({ user }) => {
-                        //         updateProfile(user, {
-                        //             displayName: name,
-                        //             photoURL: imgSource
-                        //         })
-                        //         axiosPublic.put("/addUser", { email : user.email, name, password, phone, photoUrl: imgSource })
-                        //             .then(() => {
-                        //                 form.reset();
-                        //                 setLoader(false)
-                        //                 setProfileImg(null);
-                        //                 navig('/chat')
-                        //             })
-                        //             .catch(()=>{
-                        //                 toast.error('Something wents wrong, try again.')
-                        //                 setLoader(false)
-                        //             })
-
-                        //     })
-                        //     .catch(() => {
-                        //         toast.error("Email already exist")
-                        //         setLoader(false)
-                        //     })
                     })
                     .catch(() => {
                         setLoader(false)
@@ -110,44 +92,27 @@ function Register() {
                     })
             }
 
+            // when photourl is false
             else {
-                axiosPublic.put("/addUser", { email, name, password, phone, photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU' })
-                    .then(({ data }) => {
-                        if (data.successMsg) {
-                            setUserInfo(data.userData)
-                            form.reset();
-                            setLoader(false)
-                            setProfileImg(null);
-                            navig('/')
-                        } else {
-                            setLoader(false)
-                            toast.error('Email already exist, Enter your valid email')
-                        }
+                creatUser(email, password)
+                    .then(({ user }) => {
+                        updateProfile(user, { displayName: name, photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU' })
 
+                        axiosPublic.put("/addUser", { email: user.email, name, password, phone, photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU' })
+                            .then(() => {
+                                form.reset();
+                                setLoader(false)
+                                navig('/')
+                            })
+                            .catch(() => {
+                                toast.error('Something wents wrong, try again.')
+                                setLoader(false)
+                            })
                     })
                     .catch(() => {
-                        toast.error('Something wents wrong, try again.')
                         setLoader(false)
+                        toast.error("Email already exist")
                     })
-                // creatUser(email, password)
-                //     .then(({ user }) => {
-                //         updateProfile(user, { displayName: name, photoURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU' })
-
-                //         axiosPublic.put("/addUser", { email: user.email, name, password, phone, photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU' })
-                //             .then(() => {
-                //                 form.reset();
-                //                 setLoader(false)
-                //                 navig('/chat')
-                //             })
-                //             .catch(() => {
-                //                 toast.error('Something wents wrong, try again.')
-                //                 setLoader(false)
-                //             })
-                //     })
-                //     .catch(() => {
-                //         setLoader(false)
-                //         toast.error("Email already exist")
-                //     })
             }
         }
     }

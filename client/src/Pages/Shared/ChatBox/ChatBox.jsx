@@ -19,14 +19,9 @@ const ChatBox = () => {
     const inputRef = useRef();
 
     useEffect(() => {
-        if (!userInfo.email) {
-            navig('/login')
-        }
-        else {
-            socket.on('connect', () => {
-                //console.log('connected')
-            });
-        }
+        socket.on('connect', () => {
+            //console.log('connected')
+        });
     }, [])
 
     useEffect(() => {
@@ -65,10 +60,9 @@ const ChatBox = () => {
     }
 
     socket.on(userInfo.email, (msg) => {
-        console.log(userInfo.email)
         setMassages([...messages, msg])
     })
-    
+
 
     const handleSendMsg = async(value) => {
         if (value) {
@@ -79,10 +73,10 @@ const ChatBox = () => {
 
 
     return (
-        <div className="h-screen w-full overflow-y-auto bg-[url('https://cdn.wallpapersafari.com/28/79/p75Yz0.jpg')]">
+        <div className="h-screen chat-box w-full overflow-y-auto bg-[url('https://cdn.wallpapersafari.com/28/79/p75Yz0.jpg')]">
             <div className="bg-gray-50 shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
-            <FaArrowLeft onClick={()=>navig(-1)} className="text-lg cursor-pointer"></FaArrowLeft>
-                <img className="h-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
+                <FaArrowLeft onClick={() => navig(-1)} className="text-2xl cursor-pointer mr-2"></FaArrowLeft>
+                <img className="h-10 w-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
                 <h2 className="font-medium">{loderData.data.name}</h2>
             </div>
 
@@ -106,14 +100,14 @@ const ChatBox = () => {
                             <div className="skeleton w-52 h-14"></div>
                         </div>
                     </div> :
-                        messages?.map((msg, indx) => {
-                            return <MessageBox key={indx}
+                        messages?.map((msg) => {
+                            return <MessageBox key={msg._id}
                                 position={msg?.sender?.email == userInfo.email ? "right" : 'left'}
                                 type={msg?.msg?.type}
-                                title={msg?.sender?.email == userInfo.email ? userInfo.name : loderData.data.name}
+                                title={msg?.sender?.email == userInfo.email ? userInfo.displayName : loderData.data.name}
                                 text={msg?.msg?.message}
                                 date={new Date(msg.time)}
-                                avatar={msg?.sender?.email == userInfo.email ? userInfo.photoUrl : loderData.data.photoUrl}
+                                avatar={msg?.sender?.email == userInfo.email ? userInfo.photoURL : loderData.data.photoUrl}
                                 status={'read'}
                             />
                         })
