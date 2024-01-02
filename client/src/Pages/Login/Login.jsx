@@ -26,7 +26,7 @@ function Login() {
       .then(() => {
         setLoader(false)
         form.reset();
-        navig('/')
+        navig('/chat')
         //state ? navig(`${state}`) : navig(`/`)
       })
       .catch(() => {
@@ -42,7 +42,7 @@ function Login() {
         axiosPublic.put("/addUser", { email, name: displayName, password: null, phone: phoneNumber, photoUrl: photoURL })
           .then(() => {
             setLoader(false)
-            navig('/')
+            navig('/chat')
           })
           .catch(() => {
             setLoader(false)

@@ -1,20 +1,26 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Navigate, useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import UseAxiosPublic from "../../../Hooks/UseAxiosPublic/UseAxiosPublic";
-import { MessageBox } from "react-chat-elements";
 import "react-chat-elements/dist/main.css"
 import { authContext } from "../../../ContextHandler/AuthContext/Autthonicate";
-import { SendOutlined } from '@ant-design/icons';
-import Search from "antd/es/input/Search";
 import { FaArrowLeft } from "react-icons/fa6";
+import MessageTypeChecker from "../../../Components/Message/MessageTypeChecker";
+import { IoIosImages } from "react-icons/io";
+import { Button, Input } from "antd";
+import { BsSendFill } from "react-icons/bs";
+import { Toaster } from "react-hot-toast";
+import { RxCross2 } from "react-icons/rx";
+import FileTypeChecker from "../../../Hooks/FileTypeChecker/FileTypeChecker";
 
 const ChatBox = () => {
-    const { id } = useParams();
+    const chatContainerRef = useRef(null);
     const axiosPublic = UseAxiosPublic();
     const [loading, setLoading] = useState(true);
     const loderData = useLoaderData();
     const [messages, setMassages] = useState([]);
-    const { socket, userInfo } = useContext(authContext)
+    const { socket, userInfo } = useContext(authContext);
+    const [fileLoading, setFileLoading] = useState(false);
+    const [attachment, setAttachment] = useState(null);
     const navig = useNavigate();
     const inputRef = useRef();
 
@@ -22,9 +28,6 @@ const ChatBox = () => {
         socket.on('connect', () => {
             //console.log('connected')
         });
-    }, [])
-
-    useEffect(() => {
         if (loderData) {
             axiosPublic.get(`/messages?m=${userInfo.email}&f=${loderData.data.email}`)
                 .then(({ data }) => {
@@ -34,48 +37,71 @@ const ChatBox = () => {
         }
     }, [])
 
+    useEffect(() => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
+    }, [messages])
+
     socket.on('disconnect', () => {
         //console.log('disconnected')
     });
 
-    const sendMsg = async (msg) => {
-        const messageInfo = await {
-            msg: { type: 'text', message: msg, reply: false },
-            sender: {
-                name: userInfo.displayName,
-                email: userInfo.email,
-                photoUrl: userInfo.photoURL
-            },
-            receiver: {
-                id: loderData.data._id,
-                name: loderData.data.name,
-                email: loderData.data.email,
-                photoUrl: loderData.data.photoUrl
-            },
-            time: Date.now()
-        }
-
-        await socket.emit('sendMessage', messageInfo, loderData.data.email)
-        setMassages([...messages, messageInfo]);
+    const message = {
+        sender: {
+            name: userInfo.displayName,
+            email: userInfo.email,
+            photoUrl: userInfo.photoURL
+        },
+        receiver: {
+            id: loderData.data._id,
+            name: loderData.data.name,
+            email: loderData.data.email,
+            photoUrl: loderData.data.photoUrl
+        },
     }
 
     socket.on(userInfo.email, (msg) => {
-        setMassages([...messages, msg])
+        //if your conversation is open
+        if (msg?.sender?.email == loderData?.data?.email) {
+            setMassages([...messages, msg])
+        }
     })
 
 
-    const handleSendMsg = async(value) => {
-        if (value) {
-            await sendMsg(value)
+    const handleSendMsg = async (e) => {
+        e.preventDefault();
+        let messageInfo = {};
+        if (attachment) {
+            setFileLoading(true)
+            messageInfo = await FileTypeChecker(attachment, message)
+            setFileLoading(false);
+            setAttachment(null);
+        }
+        else {
+            if (e.target.textField.value) {
+                messageInfo = await { ...message, msg: { type: 'text', message: e.target.textField.value, reply: false }, time: Date.now() }
+            }
+        }
+
+        // upload message socket and data base
+        if (messageInfo) {
+            await socket.emit('sendMessage', messageInfo, loderData.data.email);
+            await setMassages([...messages, messageInfo]);
             inputRef.current.input.value = '';
         }
     }
 
 
+    const fileupload = (e) => {
+        setAttachment(e.target.files[0]);
+    }
+
+
     return (
-        <div className="h-screen chat-box w-full overflow-y-auto bg-[url('https://cdn.wallpapersafari.com/28/79/p75Yz0.jpg')]">
+        <div ref={chatContainerRef} className="h-screen chat-box w-full overflow-y-auto bg-[url('https://cdn.wallpapersafari.com/28/79/p75Yz0.jpg')]">
             <div className="bg-gray-50 shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
-                <FaArrowLeft onClick={() => navig(-1)} className="text-2xl cursor-pointer mr-2"></FaArrowLeft>
+                <FaArrowLeft onClick={() => navig('/chat')} className="text-2xl lg:hidden cursor-pointer mr-2"></FaArrowLeft>
                 <img className="h-10 w-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
                 <h2 className="font-medium">{loderData.data.name}</h2>
             </div>
@@ -101,30 +127,28 @@ const ChatBox = () => {
                         </div>
                     </div> :
                         messages?.map((msg) => {
-                            return <MessageBox key={msg._id}
-                                position={msg?.sender?.email == userInfo.email ? "right" : 'left'}
-                                type={msg?.msg?.type}
-                                title={msg?.sender?.email == userInfo.email ? userInfo.displayName : loderData.data.name}
-                                text={msg?.msg?.message}
-                                date={new Date(msg.time)}
-                                avatar={msg?.sender?.email == userInfo.email ? userInfo.photoURL : loderData.data.photoUrl}
-                                status={'read'}
-                            />
+                            return <MessageTypeChecker userInfo={userInfo} key={msg._id} msg={msg} loderData={loderData}></MessageTypeChecker>
                         })
                 }
-
             </div>
 
-            <div className="sticky bottom-0 p-3 w-full bg-gray-50 shadow-lg">
-                <Search
-                    allowClear
-                    size="large"
-                    placeholder="write message..."
-                    onSearch={handleSendMsg}
-                    enterButton={"send"}
-                    ref={inputRef}
-                />
-            </div>
+            <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-gray-50 shadow-lg flex flex-row gap-x-4 items-center">
+                <label htmlFor="attachment" className="relative">
+                    <IoIosImages className="text-5xl bg-slate-200 text-blue-500 p-2 rounded-md cursor-pointer"></IoIosImages>
+                    {
+                        attachment && <button onClick={() => setAttachment(null)} className="absolute -top-2 -right-2 text-red-500 text-xl"><RxCross2></RxCross2></button>
+                    }
+                </label>
+
+                <input onChange={fileupload} type="file" id="attachment" name="attachment" className="hidden" />
+
+                <Input allowClear name="textField" placeholder="write message..." size="large" autoComplete="off" ref={inputRef} />
+
+                <Button loading={fileLoading} htmlType="submit" size="large" type="primary" icon={<BsSendFill className="text-sm" />}>
+                    Send
+                </Button>
+            </form>
+            <Toaster></Toaster>
         </div>
     );
 };

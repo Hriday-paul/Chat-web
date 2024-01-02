@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { authContext } from "../../ContextHandler/AuthContext/Autthonicate";
 import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
-import { IoMdMenu } from "react-icons/io";
 import Search from "antd/es/input/Search";
 import chatPhoto from "../../../public/chat-logo-design_93835-108-removebg-preview.png"
 import { Skeleton, Spin } from "antd";
 import ChatUser from "../Shared/ChatUser/ChatUser";
-import { NavLink, Outlet, useNavigate, useNavigation } from "react-router-dom";
+import { NavLink, Outlet, useNavigation } from "react-router-dom";
 import { LoadingOutlined } from '@ant-design/icons';
 
 const ChatHome = () => {
@@ -16,7 +15,6 @@ const ChatHome = () => {
     const [datas, setDatas] = useState([]);
     const axiosPublic = UseAxiosPublic();
     const navigation = useNavigation();
-    const navig = useNavigate();
 
     const fetchData = () => {
         axiosPublic.get('/users')
@@ -45,9 +43,10 @@ const ChatHome = () => {
 
 
 
-    const onSearch = (value) => {
-        if (value) {
-            serachUser(value);
+    const onSearch = (e) => {
+        const txt = e.target.value;
+        if (txt) {
+            serachUser(txt);
         }
         else {
             fetchData();
@@ -60,7 +59,7 @@ const ChatHome = () => {
             <div className="md:grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 hidden">
                 {/* large device handle */}
                 <div className="lg:col-span-1 md:col-span-2 users-scroll bg-gray-50 h-screen overflow-y-auto p-1 shadow-xl border-r border-r-gray-200">
-                    <div className="flex items-center gap-x-3 p-4">
+                    <div className="flex items-center gap-x-3 p-4 sticky top-0">
                         <div className="avatar online">
                             <div className="w-12">
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
@@ -70,7 +69,8 @@ const ChatHome = () => {
                         <Search
                             allowClear
                             placeholder="search name"
-                            onSearch={onSearch}
+                            // onSearch={onSearch}
+                            onChange={onSearch}
                         />
 
                     </div>
@@ -145,7 +145,11 @@ const ChatHome = () => {
             <div className="md:hidden">
                 <div className="lg:col-span-1 bg-gray-50 h-screen overflow-y-auto p-1 shadow-xl border-r border-r-gray-200">
                     <div className="flex items-center gap-x-3 p-4">
-                        <IoMdMenu className="text-3xl text-gray-700"></IoMdMenu>
+                        <div className="avatar online">
+                            <div className="w-12">
+                                <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                            </div>
+                        </div>
                         <Search
                             allowClear
                             placeholder="input search text"
@@ -191,7 +195,7 @@ const ChatHome = () => {
                                         return <div key={data._id} className="flex flex-col gap-y-10">
                                             <NavLink to={`/mchat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center p-3 shadow-lg bg-gray-200 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-gray-200 my-1" : "flex flex-row gap-x-2 items-center p-3 border-b border-b-gray-200 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-gray-200 my-1"
                                             }>
-                                                <img className="h-12 rounded-full" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                                <img className="h-12 w-12 rounded-full" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
                                                 <h2 className="text-lg font-medium text-gray-700">{data.name}</h2>
 
                                             </NavLink>

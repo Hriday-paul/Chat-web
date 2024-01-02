@@ -15,17 +15,12 @@ const server = http.createServer(app);
 const io = serverio(server, {
     cors: {
         origin: "https://chat-webs.netlify.app", // Adjust this to my actual client's origin
-        // origin: "http://localhost:5174",  
         methods: ["GET", "POST"]
     }
 });
 
 let messageBuffer = [];
 const messageLen = 10;
-
-
-
-
 
 
 

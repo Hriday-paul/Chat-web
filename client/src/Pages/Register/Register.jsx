@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { UserOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
@@ -8,14 +8,13 @@ import { Input, Space, Spin } from 'antd';
 import { authContext } from "../../ContextHandler/AuthContext/Autthonicate";
 import Dragger from "antd/es/upload/Dragger";
 import { InboxOutlined } from '@ant-design/icons';
-import UploadPhoto from "../../Hooks/UploadPhoto/UploadPhoto";
 import toast, { Toaster } from "react-hot-toast";
 import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
+import UploadFileCload from "../../Hooks/UploadFileCload/UploadFileCload";
 
 function Register() {
     const { creatUser } = useContext(authContext);
     const [passError, setPassError] = useState("");
-    const { state } = useLocation();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [loader, setLoader] = useState(false);
     const [profileImg, setProfileImg] = useState(null);
@@ -58,23 +57,24 @@ function Register() {
         else {
             // when photourl is true
             if (profileImg) {
-                UploadPhoto(profileImg)
-                    .then(({ data }) => {
-                        const imgSource = data.data.display_url;
+                UploadFileCload(profileImg)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        const imgSource = data.url;
                         creatUser(email, password)
                             .then(({ user }) => {
                                 updateProfile(user, {
                                     displayName: name,
                                     photoURL: imgSource
                                 })
-                                axiosPublic.put("/addUser", { email : user.email, name, password, phone, photoUrl: imgSource })
+                                axiosPublic.put("/addUser", { email: user.email, name, password, phone, photoUrl: imgSource })
                                     .then(() => {
                                         form.reset();
                                         setLoader(false)
                                         setProfileImg(null);
-                                        navig('/')
+                                        navig('/chat')
                                     })
-                                    .catch(()=>{
+                                    .catch(() => {
                                         toast.error('Something wents wrong, try again.')
                                         setLoader(false)
                                     })
@@ -84,7 +84,6 @@ function Register() {
                                 toast.error("Email already exist")
                                 setLoader(false)
                             })
-
                     })
                     .catch(() => {
                         setLoader(false)
@@ -102,7 +101,7 @@ function Register() {
                             .then(() => {
                                 form.reset();
                                 setLoader(false)
-                                navig('/')
+                                navig('/chat')
                             })
                             .catch(() => {
                                 toast.error('Something wents wrong, try again.')

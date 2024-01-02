@@ -5,18 +5,15 @@
 .ant-space-item{
     width: 100%;
 }
-
 .ant-btn{
     background-color: #1c74d8;
 }
-
 .anticon-search svg{
     color: rgb(226, 226, 226);
 }
 .rce-avatar{
     border-radius: 50%;
 }
-
 .chat-box::-webkit-scrollbar{
     width: 6px;
     background-color: transparent;
@@ -24,11 +21,13 @@
 .chat-box::-webkit-scrollbar-thumb{
     background-color:  rgb(185, 185, 185);
 }
-
 .users-scroll::-webkit-scrollbar{
     width: 4px;
     background-color: transparent;
 }
 .users-scroll::-webkit-scrollbar-thumb{
     background-color:  rgb(221, 221, 221);
+}
+.ant-btn {
+    color: white;
 }

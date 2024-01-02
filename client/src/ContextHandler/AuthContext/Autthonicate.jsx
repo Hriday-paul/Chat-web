@@ -36,11 +36,14 @@ const Autthonicate = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setSocket(io(URL))
-                setUserInfo(currentUser)
-                setLoading(false)
-            }
+            setUserInfo(currentUser);
+            setSocket(io(URL));
+            setLoading(false);
+            // if (currentUser) {
+            //     setSocket(io(URL))
+            //     setUserInfo(currentUser)
+            //     setLoading(false)
+            // }
         })
         return () => {
             unsubscribe()
