@@ -152,8 +152,9 @@ const ChatHome = () => {
                         </div>
                         <Search
                             allowClear
-                            placeholder="input search text"
-                            onSearch={onSearch}
+                            placeholder="search name"
+                            // onSearch={onSearch}
+                            onChange={onSearch}
                         />
                     </div>
                     <img className="h-32 mx-auto -mt-2" src={chatPhoto} alt="chat photo" />
