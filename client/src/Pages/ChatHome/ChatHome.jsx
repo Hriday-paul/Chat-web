@@ -58,7 +58,7 @@ const ChatHome = () => {
         <div className="mx-w-7xl mx-auto px-4">
             <div className="md:grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 hidden">
                 {/* large device handle */}
-                <div className="lg:col-span-1 md:col-span-2 users-scroll bg-gray-50 h-screen overflow-y-auto p-1 shadow-xl border-r border-r-gray-200">
+                <div className="lg:col-span-1 md:col-span-2 users-scroll bg-gray-50 h-screen overflow-y-auto px-1 shadow-xl border-r border-r-gray-200">
                     <div className="flex items-center gap-x-3 p-4 sticky top-0 bg-gray-50">
                         <div className="avatar online">
                             <div className="w-12">
@@ -143,8 +143,8 @@ const ChatHome = () => {
                 </div>
             </div>
             <div className="md:hidden">
-                <div className="lg:col-span-1 bg-gray-50 h-screen overflow-y-auto p-1 shadow-xl border-r border-r-gray-200">
-                    <div className="flex items-center gap-x-3 p-4">
+                <div className="lg:col-span-1 bg-gray-50 h-screen overflow-y-auto px-1 shadow-xl border-r border-r-gray-200">
+                    <div className="flex items-center gap-x-3 p-4 sticky top-0 bg-gray-50">
                         <div className="avatar online">
                             <div className="w-12">
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />

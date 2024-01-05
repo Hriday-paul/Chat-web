@@ -104,6 +104,7 @@ const ChatBox = () => {
                 <FaArrowLeft onClick={() => navig('/chat')} className="text-2xl lg:hidden cursor-pointer mr-2"></FaArrowLeft>
                 <img className="h-10 w-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
                 <h2 className="font-medium">{loderData.data.name}</h2>
+                
             </div>
 
 
@@ -132,14 +133,13 @@ const ChatBox = () => {
                 }
             </div>
 
-            <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-gray-50 shadow-lg flex flex-row gap-x-4 items-center">
+            <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-gray-50 shadow-lg flex flex-row gap-2 items-center">
                 <label htmlFor="attachment" className="relative">
                     <IoIosImages className="text-5xl bg-slate-200 text-blue-500 p-2 rounded-md cursor-pointer"></IoIosImages>
                     {
                         attachment && <button onClick={() => setAttachment(null)} className="absolute -top-2 -right-2 text-red-500 text-xl"><RxCross2></RxCross2></button>
                     }
                 </label>
-
                 <input onChange={fileupload} type="file" id="attachment" name="attachment" className="hidden" />
 
                 <Input allowClear name="textField" placeholder="write message..." size="large" autoComplete="off" ref={inputRef} />

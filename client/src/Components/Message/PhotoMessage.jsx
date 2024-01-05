@@ -2,7 +2,7 @@ import { Button, Modal } from "antd";
 import { useState } from "react";
 import { MessageBox } from "react-chat-elements";
 import { FaCloudArrowDown } from "react-icons/fa6";
-import DownloadFile from "../DownloadFile/DownloadFile";
+// import DownloadFile from "../DownloadFile/DownloadFile";
 
 
 const PhotoMessage = ({ msg, userInfo, loderData }) => {
@@ -13,10 +13,15 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
     })
 
     const clickImg = async (e) => {
-        await setModalInfo({
+        const imgUrl = e.target.src;
+        const urlArray = imgUrl.split('/');
+        urlArray.splice(6, 0, 'fl_attachment');
+        const result = await urlArray.join('/');
+
+        setModalInfo({
             isOpen: true,
             imgUrl: e.target.src,
-            fileName: e.target.src.split('/').pop()
+            downloadUrl: result,
         })
     }
 
@@ -45,15 +50,27 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
             />
 
 
-            <Modal title="Web Chats" open={modalInfo.isOpen} onOk={cencelModal} onCancel={cencelModal} centered>
+            {
+                modalInfo.isOpen && <Modal
+                    title="Web Chats"
+                    open={modalInfo.isOpen}
+                    onOk={cencelModal}
+                    onCancel={cencelModal}
+                    okButtonProps={{ style: { display: 'none' } }}
+                    centered>
 
-                <img className="mx-auto my-3 " src={modalInfo?.imgUrl} alt="image" />
-                <span className="flex -mb-12">
-                    <Button onClick={() => DownloadFile(modalInfo.imgUrl, modalInfo.fileName)} type="primary" icon={<FaCloudArrowDown className="text-sm" />}>
-                        Download
-                    </Button>
-                </span>
-            </Modal>
+                    <img className="mx-auto my-3 " src={modalInfo?.imgUrl} alt="image" />
+                    <span className="flex -mb-11">
+
+                        <a href={modalInfo?.downloadUrl}>
+                            <Button type="primary" icon={<FaCloudArrowDown className="text-sm" />}>
+                                Download
+                            </Button>
+                        </a>
+
+                    </span>
+                </Modal>
+            }
 
 
         </>

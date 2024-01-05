@@ -45,6 +45,7 @@ function Register() {
         const email = form.email.value;
         const password = form.password.value;
         const phone = form.phone.value;
+
         if (password.length < 6) {
             setPassError("pasword must use 6 character")
         }
@@ -54,13 +55,14 @@ function Register() {
         else if (!/[#?!@$%^&*-]/.test(password)) {
             setPassError("pasword must use an special character")
         }
+        
         else {
             // when photourl is true
             if (profileImg) {
                 UploadFileCload(profileImg)
                     .then((response) => response.json())
                     .then((data) => {
-                        const imgSource = data.url;
+                        const imgSource = data.secure_url;
                         creatUser(email, password)
                             .then(({ user }) => {
                                 updateProfile(user, {

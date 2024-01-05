@@ -21,11 +21,11 @@ const Root = () => {
 
                 </div>
                 <div className="order-1 md:order-2 mx-auto">
-                    <img className="h-72 w-auto md:h-auto md:w-auto" src="https://media.istockphoto.com/id/1066987454/vector/chating-and-messaging-on-smartphone-concept-sms-messages-and-speech-bubbles-short-message.jpg?s=612x612&w=0&k=20&c=bWxErPheCoILaz38lmJUn0_o4ynD0ZjeozmDmixiRKg=" alt="bg image" />
+                    <img className="h-64 w-auto md:h-auto md:w-auto" src="https://media.istockphoto.com/id/1066987454/vector/chating-and-messaging-on-smartphone-concept-sms-messages-and-speech-bubbles-short-message.jpg?s=612x612&w=0&k=20&c=bWxErPheCoILaz38lmJUn0_o4ynD0ZjeozmDmixiRKg=" alt="bg image" />
+                    
                 </div>
 
             </div>
-            {/* <Outlet></Outlet> */}
         </div>
     );
 };

@@ -23,14 +23,14 @@ const rout = createBrowserRouter([
             {
                 path: '/chat/:id',
                 loader: ({ params }) => axiosPublic.get(`/user/${params.id}`),
-                element: <ChatBox></ChatBox>
+                element: <Private><ChatBox></ChatBox></Private>
             }
         ]
     },
     {
         path: '/mchat/:id',
         loader: ({ params }) => axiosPublic.get(`/user/${params.id}`),
-        element: <ChatBox></ChatBox>
+        element: <Private><ChatBox></ChatBox></Private>
     },
     {
         path: '/register',

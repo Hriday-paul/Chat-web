@@ -57,9 +57,7 @@ function Login() {
   return (
     <>
       <Spin tip="Loading..." spinning={loader} size="large">
-        {/* <Helmet>
-        <title>chef | login</title>
-      </Helmet> */}
+       
         <section className="bg-gray-50">
           <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
 
