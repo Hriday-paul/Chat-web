@@ -6,11 +6,13 @@ import { authContext } from "../../../ContextHandler/AuthContext/Autthonicate";
 import { FaArrowLeft } from "react-icons/fa6";
 import MessageTypeChecker from "../../../Components/Message/MessageTypeChecker";
 import { IoIosImages } from "react-icons/io";
-import { Button, Input } from "antd";
+import { Button } from "antd";
 import { BsSendFill } from "react-icons/bs";
 import { Toaster } from "react-hot-toast";
 import { RxCross2 } from "react-icons/rx";
 import FileTypeChecker from "../../../Hooks/FileTypeChecker/FileTypeChecker";
+import SkeletonMessage from "../../../Components/SkeletonMessage/SkeletonMessage";
+
 
 const ChatBox = () => {
     const chatContainerRef = useRef(null);
@@ -79,16 +81,19 @@ const ChatBox = () => {
             setAttachment(null);
         }
         else {
-            if (e.target.textField.value) {
+            if (e.target.textField.value && e.target.textField.value != '') {
                 messageInfo = await { ...message, msg: { type: 'text', message: e.target.textField.value, reply: false }, time: Date.now() }
+            }
+            else {
+                return
             }
         }
 
         // upload message socket and data base
-        if (messageInfo) {
+        if (Object.keys(messageInfo).length > 0) {
             await socket.emit('sendMessage', messageInfo, loderData.data.email);
             await setMassages([...messages, messageInfo]);
-            inputRef.current.input.value = '';
+            inputRef.current.value = '';
         }
     }
 
@@ -99,33 +104,19 @@ const ChatBox = () => {
 
 
     return (
-        <div ref={chatContainerRef} className="h-screen chat-box w-full overflow-y-auto bg-[url('https://cdn.wallpapersafari.com/28/79/p75Yz0.jpg')]">
-            <div className="bg-gray-50 shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
+        <div ref={chatContainerRef} className="h-screen chat-box w-full overflow-y-auto bg-[url('https://i.ibb.co/NyZkx2Q/e86c13b0-4e16-4c56-b5b5-1a90acbea77c-naruwhatsappwallpaperdark.webp')]">
+            <div className="bg-[#121C22] text-[#a0bcd3] shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
                 <FaArrowLeft onClick={() => navig('/chat')} className="text-2xl lg:hidden cursor-pointer mr-2"></FaArrowLeft>
                 <img className="h-10 w-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
                 <h2 className="font-medium">{loderData.data.name}</h2>
-                
+
             </div>
 
 
-            <div className="flex-grow mb-5 min-h-[calc(100vh-140px)]">
+            <div className="flex-grow mb-5 min-h-[calc(100vh-144px)]">
                 {
-                    loading ? <div className="my-5">
-                        <div className="chat chat-start">
-                            <div className="skeleton w-52 h-12"></div>
-                        </div>
-                        <div className="chat chat-end">
-                            <div className="skeleton w-52 h-14"></div>
-                        </div>
-                        <div className="chat chat-start">
-                            <div className="skeleton w-52 h-12"></div>
-                        </div>
-                        <div className="chat chat-start">
-                            <div className="skeleton w-52 h-16"></div>
-                        </div>
-                        <div className="chat chat-end">
-                            <div className="skeleton w-52 h-14"></div>
-                        </div>
+                    loading ? <div>
+                        <SkeletonMessage></SkeletonMessage>
                     </div> :
                         messages?.map((msg) => {
                             return <MessageTypeChecker userInfo={userInfo} key={msg._id} msg={msg} loderData={loderData}></MessageTypeChecker>
@@ -133,20 +124,22 @@ const ChatBox = () => {
                 }
             </div>
 
-            <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-gray-50 shadow-lg flex flex-row gap-2 items-center">
+            <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-[#121C22] shadow-lg flex flex-row gap-2 items-center">
                 <label htmlFor="attachment" className="relative">
-                    <IoIosImages className="text-5xl bg-slate-200 text-blue-500 p-2 rounded-md cursor-pointer"></IoIosImages>
+                    <IoIosImages className="h-11 w-11 bg-[#0B1114] text-white hover:text-blue-500 duration-150 p-2 rounded-md cursor-pointer"></IoIosImages>
                     {
                         attachment && <button onClick={() => setAttachment(null)} className="absolute -top-2 -right-2 text-red-500 text-xl"><RxCross2></RxCross2></button>
                     }
                 </label>
                 <input onChange={fileupload} type="file" id="attachment" name="attachment" className="hidden" />
 
-                <Input allowClear name="textField" placeholder="write message..." size="large" autoComplete="off" ref={inputRef} />
 
-                <Button loading={fileLoading} htmlType="submit" size="large" type="primary" icon={<BsSendFill className="text-sm" />}>
+                <input type="text" name="textField" className="text-sm rounded-lg block w-full py-2.5 px-3 bg-[#0B1114] placeholder-gray-400 text-white border border-[#0B1114] focus:outline-0 focus:border-[#3B82F6]" placeholder="write message..." autoComplete="off" ref={inputRef}></input>
+
+                <Button loading={fileLoading} htmlType="submit" size="large" style={{ background: '#0B1114', border: '#0B1114' }} icon={<BsSendFill className="text-sm" />}>
                     Send
                 </Button>
+
             </form>
             <Toaster></Toaster>
         </div>

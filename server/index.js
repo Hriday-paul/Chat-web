@@ -15,14 +15,9 @@ const server = http.createServer(app);
 const io = serverio(server, {
     cors: {
         origin: "https://message-friend.netlify.app",
-        //credentials: true,  // Allow credentials (cookies, headers, etc.)
-        //optionsSuccessStatus: 204,// Adjust this to my actual client's origin
         methods: ["GET", "POST"]
     }
 });
-
-let messageBuffer = [];
-const messageLen = 10;
 
 
 
@@ -44,22 +39,11 @@ async function run() {
         const userList = dataBase.collection("users");
         const messageList = dataBase.collection('messages');
 
-        //store messages in database
-        // const storemessageDb = async () => {
-        //     const messageOFlength = [...messageBuffer]
-        //     messageBuffer = [];
-        //     const options = { ordered: true };
-        //     console.log(messageOFlength.length)
-        //     if (messageBuffer.length >= 1) {
-        //         await messageList.insertMany(messageOFlength, options);
-        //     }
-        // }
 
         //connection socket
         io.on('connection', socket => {
             socket.on('disconnect', () => {
-                //storemessageDb();
-                //console.log('disconnect');
+
             });
 
             socket.on('sendMessage', async (messageInfo, receiverEmail) => {
@@ -67,9 +51,7 @@ async function run() {
                 //messageBuffer.push(messageInfo)
                 socket.broadcast.emit(receiverEmail, messageInfo);
                 await messageList.insertOne(messageInfo);
-                // if (messageBuffer.length >= messageLen) {
-                //     storemessageDb();
-                // }
+
             });
         });
 

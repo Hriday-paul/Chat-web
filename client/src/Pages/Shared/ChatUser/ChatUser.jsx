@@ -31,10 +31,10 @@ const ChatUser = ({ data}) => {
 
 
     return (
-        <NavLink to={`/chat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center p-3 shadow-lg bg-gray-200 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-gray-200 my-1" : "flex flex-row gap-x-2 items-center p-3 border-b border-b-gray-200 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-gray-200 my-1"
+        <NavLink to={`/chat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
         }>
-            <img className="h-12 w-12 rounded-full" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
-            <h2 className="text-lg font-medium text-gray-700">{data.name}</h2>
+            <img className="h-10 w-10 rounded-full" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+            <h2 className="text-lg font-medium text-[#8fa9be]">{data.name}</h2>
         </NavLink>
 
     );

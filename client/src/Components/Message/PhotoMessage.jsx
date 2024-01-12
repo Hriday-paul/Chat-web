@@ -1,11 +1,45 @@
 import { Button, Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MessageBox } from "react-chat-elements";
 import { FaCloudArrowDown } from "react-icons/fa6";
 // import DownloadFile from "../DownloadFile/DownloadFile";
 
 
 const PhotoMessage = ({ msg, userInfo, loderData }) => {
+    const [imageDimensions, setImageDimensions] = useState({ width: 100, height: 100 });
+
+    const getImageDimensions = (url) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+
+            const obj = img.width < 150 ?
+                { width: img.width, height: img.height }
+                : img.width < 450 ?
+                    { width: (img.width * 70) / 100, height: (img.height * 70) / 100 }
+                    : img.width < 600 ?
+                        { width: (img.width * 40) / 100, height: (img.height * 40) / 100 }
+                        : img.width < 800 ?
+                            { width: (img.width * 30) / 100, height: (img.height * 30) / 100 }
+                            : img.width < 2000 ?
+                                { width: (img.width * 15) / 100, height: (img.height * 15) / 100 }
+                                : { width: (img.width * 5) / 100, height: (img.height * 5) / 100 };
+
+            setImageDimensions(obj);
+        };
+    };
+
+    const imageUrl = msg?.msg?.message?.url;
+
+    useEffect(() => {
+        if (imageUrl) {
+            getImageDimensions(imageUrl);
+        }
+    }, [imageUrl]);
+
+
+
+
     const [modalInfo, setModalInfo] = useState({
         isOpen: false,
         imgUrl: null,
@@ -38,9 +72,9 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
                 type={msg?.msg?.type}
                 title={msg?.sender?.email == userInfo.email ? userInfo.displayName : loderData.data.name}
                 data={{
-                    uri: msg?.msg?.message?.url,
-                    height: 180,
-                    width: 180,
+                    uri: imageUrl,
+                    height: imageDimensions.height, // Pass the height dynamically
+                    width: imageDimensions.width,   // Pass the width dynamically
                     alt: 'image',
                 }}
                 onOpen={clickImg}
@@ -53,6 +87,7 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
             {
                 modalInfo.isOpen && <Modal
                     title="Web Chats"
+                    style={{backgroundColor : 'black'}}
                     open={modalInfo.isOpen}
                     onOk={cencelModal}
                     onCancel={cencelModal}

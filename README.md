@@ -1,8 +1,9 @@
-### Live link 
-https://message-friend.netlify.app/
+## Live link : https://message-friend.netlify.app/
 
-> If you want to test message send your friends, you open this website different browser (chrome, firefox, edge).
+---
 
-> Don't open this website in <b>Facebook</b>, because facebook not access cloudinary image or any file. Open google this website live link. 
+Useges technology
 
- > I'm trying to solve this problem.
+> Tailwind , Web socket , React , Firebase , Express , Mongodb
+
+### Give rating on my work in Github  <img src="https://i.ibb.co/16ccb0G/Star-icon-stylized-svg.png" width="20" alt="star image">

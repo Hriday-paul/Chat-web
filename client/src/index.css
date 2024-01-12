@@ -7,10 +7,9 @@
 }
 .ant-btn{
     background-color: #1c74d8;
+    color: white;
 }
-.anticon-search svg{
-    color: rgb(226, 226, 226);
-}
+
 .rce-avatar{
     border-radius: 50%;
 }
@@ -19,15 +18,32 @@
     background-color: transparent;
 }
 .chat-box::-webkit-scrollbar-thumb{
-    background-color:  rgb(185, 185, 185);
+    background-color:  rgb(44, 44, 44);
 }
 .users-scroll::-webkit-scrollbar{
     width: 4px;
     background-color: transparent;
 }
 .users-scroll::-webkit-scrollbar-thumb{
-    background-color:  rgb(221, 221, 221);
+    background-color:  rgb(44, 44, 44);
 }
-.ant-btn {
+
+.rce-mbox{
+    background: #0b1114 !important;
+}
+.rce-mbox-left-notch, .rce-mbox-right-notch{
+    fill: #0b1114 !important;
+}
+.rce-mbox-text{
     color: white;
+}
+.rce-mbox-time{
+    color: gray !important;
+}
+.ant-modal-content, .ant-modal-title{
+    background-color: #121C22 !important;
+    color: white !important;
+}
+.ant-modal-close{
+    color: rgb(179, 179, 179) !important;
 }

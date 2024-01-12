@@ -57,6 +57,7 @@ function Register() {
         }
         
         else {
+            setLoader(true)
             // when photourl is true
             if (profileImg) {
                 UploadFileCload(profileImg)

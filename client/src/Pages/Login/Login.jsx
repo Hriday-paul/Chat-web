@@ -36,6 +36,7 @@ function Login() {
   }
 
   const handleGoogleSign = () => {
+    setLoader(true)
     googleLogin()
       .then(({ user }) => {
         const { email, displayName, phoneNumber, photoURL } = user;
@@ -85,13 +86,13 @@ function Login() {
                       />
                     </Space>
 
-                    <p className="mt-3 text-right text-gray-500"><Link to={"/forgetPass"}>Forget password!</Link></p>
+                    {/* <p className="mt-3 text-right text-gray-500"><Link to={"/forgetPass"}>Forget password!</Link></p> */}
                   </div>
 
 
                   <div className="flex items-start">
                     <div className="flex items-center h-5">
-                      <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300" required />
+                      <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-red-500 focus:ring-3 focus:ring-primary-300" defaultChecked={true} required />
                     </div>
                     <div className="ml-3 text-sm">
                       <label htmlFor="terms" className="font-light text-gray-500">I accept the <a className="font-medium text-primary-600 hover:underline" href="#">Terms and Conditions</a></label>
