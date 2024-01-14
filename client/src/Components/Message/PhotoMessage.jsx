@@ -64,7 +64,6 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
     }
 
 
-
     return (
         <>
             <MessageBox key={msg._id}
@@ -78,6 +77,7 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
                     alt: 'image',
                 }}
                 onOpen={clickImg}
+                onLoad={true}
                 date={new Date(msg.time)}
                 avatar={msg?.sender?.email == userInfo.email ? userInfo.photoURL : loderData.data.photoUrl}
                 status={'read'}

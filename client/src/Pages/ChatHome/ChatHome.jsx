@@ -67,24 +67,24 @@ const ChatHome = () => {
                 <div className="lg:col-span-1 md:col-span-2 users-scroll bg-[#121C22] h-screen overflow-y-auto px-1 shadow-xl border-r border-r-gray-700">
                     <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22]">
                         <div className="relative">
-                            <div className="w-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
+                            <div className="w-12 h-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
                             </div>
 
-                            <div className={`w-30 bg-[#0d1418] absolute left-0 z-50 rounded shadow-md shadow-[#121C22]  duration-300 ${isShowProfile ? 'top-12 h-auto' : 'top-16 h-0 overflow-hidden'}`}>
+                            <div className={`w-[250px] bg-[#0d1418] absolute left-0 z-50 rounded shadow-md shadow-[#121C22]  duration-300 ${isShowProfile ? 'top-12 h-auto' : 'top-16 h-0 overflow-hidden'}`}>
 
                                 <div className="p-3">
-                                    <div className="flex flex-row flex-shrink items-center gap-1 text-base font-medium whitespace-nowrap border-b border-gray-700 pb-2">
+                                    <div className="flex flex-row flex-shrink items-center gap-x-2 text-base font-medium whitespace-nowrap border-b border-gray-700 pb-2">
                                         <img className="h-10 w-10 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
 
                                         <span className="truncate">
-                                            <h3 className="text-gray-200 text-base">{userInfo.displayName}</h3>
+                                            <h3 className="text-gray-200 text-base truncate">{userInfo.displayName}</h3>
                                             <p className="truncate text-gray-400 text-sm">{userInfo.email}</p>
                                         </span>
 
                                     </div>
 
-                                    <Link to="/" className="flex items-center gap-x-2 p-2 relative group cursor-pointer">
+                                    <Link to="/profile" className="flex items-center gap-x-2 p-2 relative group cursor-pointer">
                                         <FaRegUser className="text-gray-400 z-30"></FaRegUser>
                                         <p className="z-30 text-base">Profile</p>
                                         <span className="absolute bg-[#1B262C] top-0 left-0 h-[40px] w-0 z-20 group-hover:w-full duration-200 rounded"></span>
@@ -157,11 +157,11 @@ const ChatHome = () => {
                 <div className="lg:col-span-1 bg-[#121C22] h-screen users-scroll overflow-y-auto px-1 shadow-xl">
                     <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22]">
                         <div className="relative">
-                            <div className="w-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
+                            <div className="w-12 h-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
                             </div>
 
-                            <div className={`w-30 bg-[#0d1418] absolute left-0 z-50 rounded shadow-md shadow-[#121C22]  duration-300 ${isShowProfile ? 'top-12 h-auto' : 'top-16 h-0 overflow-hidden'}`}>
+                            <div className={`w-[270px] bg-[#0d1418] absolute left-0 z-50 rounded shadow-md shadow-[#121C22]  duration-300 ${isShowProfile ? 'top-12 h-auto' : 'top-16 h-0 overflow-hidden'}`}>
 
                                 <div className="p-3">
                                     <div className="flex flex-row flex-shrink items-center gap-1 text-base font-medium whitespace-nowrap border-b border-gray-700 pb-2">
@@ -174,7 +174,7 @@ const ChatHome = () => {
 
                                     </div>
 
-                                    <Link to="/" className="flex items-center gap-x-2 p-2 relative group cursor-pointer">
+                                    <Link to="/profile" className="flex items-center gap-x-2 p-2 relative group cursor-pointer">
                                         <FaRegUser className="text-gray-400 z-30"></FaRegUser>
                                         <p className="z-30 text-base">Profile</p>
                                         <span className="absolute bg-[#1B262C] top-0 left-0 h-[40px] w-0 z-20 group-hover:w-full duration-200 rounded"></span>

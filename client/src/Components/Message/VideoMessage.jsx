@@ -16,6 +16,7 @@ const VideoMessage = ({ msg, userInfo, loderData }) => {
                     loading: 0.2
                 },
             }}
+            onLoad={true}
             date={new Date(msg.time)}
             avatar={msg?.sender?.email == userInfo.email ? userInfo.photoURL : loderData.data.photoUrl}
             status={'read'}

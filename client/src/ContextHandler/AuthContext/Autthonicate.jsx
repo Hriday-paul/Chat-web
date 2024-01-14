@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
-import auth from "../../../firebase.config"
+import {auth} from "../../../firebase.init"
 import { io } from 'socket.io-client';
 
 export const authContext = createContext(null);

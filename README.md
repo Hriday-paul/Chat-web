@@ -1,3 +1,5 @@
+> If you want to send a message to your friend to test, use different browsers (chrome, firefox, edge) for different users of this website.
+
 ## Live link : https://message-friend.netlify.app/
 
 ---

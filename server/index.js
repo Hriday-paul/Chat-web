@@ -88,6 +88,21 @@ async function run() {
             }
         })
 
+        //update user 
+        app.put('/updateUser', async (req, res) => {
+            try {
+                const filter = { email: req.body.email };
+                const updateDoc = {
+                    $set: req.body
+                };
+                const result = await userList.updateOne(filter, updateDoc);
+                res.status(200).send(result);
+            }
+            catch (err) {
+                res.status(402).send({ err })
+            }
+        })
+
 
         //get all users
         app.get('/users', async (req, res) => {
@@ -142,10 +157,10 @@ async function run() {
         app.get('/myInfo/:email', async (req, res) => {
             try {
                 const query = { email: req.params.email }
-                const options = {
-                    projection: { password: 0 },
-                };
-                const users = await userList.findOne(query, options)
+                // const options = {
+                //     projection: { password: 0 },
+                // };
+                const users = await userList.findOne(query)
                 res.status(200).send(users);
             }
             catch (err) {

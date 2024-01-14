@@ -7,6 +7,7 @@ import ChatBox from "../Pages/Shared/ChatBox/ChatBox";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic/UseAxiosPublic";
 import ErrorPage from '../Pages/ErrorPage/ErrorPage'
 import Root from '../Root/Root'
+import Profile from "../Pages/Profile/Profile";
 
 const axiosPublic = UseAxiosPublic();
 
@@ -27,10 +28,15 @@ const rout = createBrowserRouter([
             }
         ]
     },
+    // mobile device handle rout
     {
         path: '/mchat/:id',
         loader: ({ params }) => axiosPublic.get(`/user/${params.id}`),
         element: <Private><ChatBox></ChatBox></Private>
+    },
+    {
+        path: '/profile',
+        element: <Private><Profile></Profile></Private>
     },
     {
         path: '/register',
