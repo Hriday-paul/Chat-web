@@ -77,7 +77,6 @@ const PhotoMessage = ({ msg, userInfo, loderData }) => {
                     alt: 'image',
                 }}
                 onOpen={clickImg}
-                onLoad={true}
                 date={new Date(msg.time)}
                 avatar={msg?.sender?.email == userInfo.email ? userInfo.photoURL : loderData.data.photoUrl}
                 status={'read'}

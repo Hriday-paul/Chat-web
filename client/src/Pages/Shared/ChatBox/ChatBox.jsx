@@ -25,6 +25,9 @@ const ChatBox = () => {
     const [attachment, setAttachment] = useState(null);
     const navig = useNavigate();
     const inputRef = useRef();
+    const sendingAudio = useRef('');
+    
+
 
     useEffect(() => {
         socket.on('connect', () => {
@@ -49,6 +52,7 @@ const ChatBox = () => {
         //console.log('disconnected')
     });
 
+    //default message information
     const message = {
         sender: {
             name: userInfo.displayName,
@@ -63,10 +67,12 @@ const ChatBox = () => {
         },
     }
 
+    //receive message
     socket.on(userInfo.email, (msg) => {
         //if your conversation is open
         if (msg?.sender?.email == loderData?.data?.email) {
             setMassages([...messages, msg])
+            document.getElementById('receivingAudio').play();
         }
     })
 
@@ -93,6 +99,7 @@ const ChatBox = () => {
         if (Object.keys(messageInfo).length > 0) {
             await socket.emit('sendMessage', messageInfo, loderData.data.email);
             await setMassages([...messages, messageInfo]);
+            sendingAudio.current.play();
             inputRef.current.value = '';
         }
     }
@@ -107,9 +114,13 @@ const ChatBox = () => {
         <div ref={chatContainerRef} className="h-screen chat-box w-full overflow-y-auto bg-[url('https://i.ibb.co/NyZkx2Q/e86c13b0-4e16-4c56-b5b5-1a90acbea77c-naruwhatsappwallpaperdark.webp')]">
             <div className="bg-[#121C22] text-[#a0bcd3] shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
                 <FaArrowLeft onClick={() => navig('/chat')} className="text-2xl lg:hidden cursor-pointer mr-2"></FaArrowLeft>
-                <img className="h-10 w-10 rounded-full" src={loderData.data.photoUrl} alt="profile image" />
-                <h2 className="font-medium">{loderData.data.name}</h2>
 
+                <div className="avatar z-0">
+                    <div className="w-10 h-10 rounded-full z-0">
+                        <img className="z-0" src={loderData.data.photoUrl} alt="profile image" />
+                    </div>
+                </div>
+                <h2 className="font-medium">{loderData.data.name}</h2>
             </div>
 
 
@@ -122,6 +133,15 @@ const ChatBox = () => {
                             return <MessageTypeChecker userInfo={userInfo} key={msg._id} msg={msg} loderData={loderData}></MessageTypeChecker>
                         })
                 }
+
+                {/* message sending audio */}
+                <audio ref={sendingAudio}>
+                    <source src="https://res.cloudinary.com/devlj6p7h/video/upload/v1705640145/docs/g5elp0o0lubgyrz76jgn.mp3" type="audio/ogg" />
+                </audio>
+                {/* message receiveing audio */}
+                <audio id="receivingAudio" >
+                    <source src="https://res.cloudinary.com/devlj6p7h/video/upload/v1705641840/docs/q6r5ualu8qwdzpnou2dq.mp3" type="audio/ogg" />
+                </audio>
             </div>
 
             <form onSubmit={handleSendMsg} className="sticky bottom-0 p-3 w-full bg-[#121C22] shadow-lg flex flex-row gap-2 items-center">

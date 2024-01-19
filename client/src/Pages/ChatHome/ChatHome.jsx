@@ -65,7 +65,7 @@ const ChatHome = () => {
 
                 {/* large device handle */}
                 <div className="lg:col-span-1 md:col-span-2 users-scroll bg-[#121C22] h-screen overflow-y-auto px-1 shadow-xl border-r border-r-gray-700">
-                    <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22]">
+                    <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22] z-50">
                         <div className="relative">
                             <div className="w-12 h-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
@@ -75,7 +75,13 @@ const ChatHome = () => {
 
                                 <div className="p-3">
                                     <div className="flex flex-row flex-shrink items-center gap-x-2 text-base font-medium whitespace-nowrap border-b border-gray-700 pb-2">
-                                        <img className="h-10 w-10 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+
+
+                                        <div className="avatar z-40">
+                                            <div className="w-10 h-10 rounded-full z-40">
+                                                <img className="z-40" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                            </div>
+                                        </div>
 
                                         <span className="truncate">
                                             <h3 className="text-gray-200 text-base truncate">{userInfo.displayName}</h3>
@@ -130,6 +136,7 @@ const ChatHome = () => {
                 </div>
 
                 <div className="md:col-span-3 lg:col-span-3 bg-[url('https://i.ibb.co/NyZkx2Q/e86c13b0-4e16-4c56-b5b5-1a90acbea77c-naruwhatsappwallpaperdark.webp')]">
+
                     {
                         navigation.state === 'loading' ? <div className="min-h-[90vh] flex justify-center items-center">
                             <Spin
@@ -150,12 +157,13 @@ const ChatHome = () => {
 
                 </div>
 
+
             </div>
 
             {/* mobile device handle */}
             <div className="md:hidden">
                 <div className="lg:col-span-1 bg-[#121C22] h-screen users-scroll overflow-y-auto px-1 shadow-xl">
-                    <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22]">
+                    <div className="flex items-center justify-between gap-x-3 p-4 sticky z-50 top-0 bg-[#121C22]">
                         <div className="relative">
                             <div className="w-12 h-12 avatar online cursor-pointer" onClick={() => setShowProfile(!isShowProfile)}>
                                 <img className="h-12 w-12 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
@@ -165,7 +173,12 @@ const ChatHome = () => {
 
                                 <div className="p-3">
                                     <div className="flex flex-row flex-shrink items-center gap-1 text-base font-medium whitespace-nowrap border-b border-gray-700 pb-2">
-                                        <img className="h-10 w-10 rounded-full" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+
+                                        <div className="avatar z-40">
+                                            <div className="w-10 h-10 rounded-full z-40">
+                                                <img className="z-40" src={userInfo.photoURL !== null ? `${userInfo.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                            </div>
+                                        </div>
 
                                         <span className="truncate">
                                             <h3 className="truncate text-gray-200 text-base">{userInfo.displayName}</h3>
@@ -213,8 +226,12 @@ const ChatHome = () => {
                                         return <div key={data._id} className="flex flex-col gap-y-10">
                                             <NavLink to={`/mchat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
                                             }>
-                                                <img className="h-10 w-10 rounded-full" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
-                                                <h2 className="text-lg font-medium text-[#8fa9be]">{data.name}</h2>
+                                                <div className="avatar z-0">
+                                                    <div className="w-10 h-10 rounded-full z-0">
+                                                        <img className="z-0" src={data.photoUrl !== null ? `${data.photoUrl}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                                    </div>
+                                                </div>
+                                                <h2 className="text-lg font-medium text-[#8fa9be] truncate">{data.name}</h2>
 
                                             </NavLink>
                                         </div>

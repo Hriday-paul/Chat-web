@@ -4,9 +4,10 @@ import { MdOutlineEdit } from "react-icons/md";
 const cloudName = import.meta.env.VITE_cloudName;
 const unsignedUploadPreset = import.meta.env.VITE_unsignedUploadPreset;
 
-const WidgetCloudinary = ({updatePhoto}) => {
+const WidgetCloudinary = ({ updatePhoto, children }) => {
     const cloudinaryRef = useRef();
     const WidgetRef = useRef();
+    console.log(children)
 
     useEffect(() => {
         cloudinaryRef.current = window.cloudinary;
@@ -52,7 +53,9 @@ const WidgetCloudinary = ({updatePhoto}) => {
         })
     }, [])
 
-    return <MdOutlineEdit onClick={() => WidgetRef.current.open()} className="-ml-5 text-white group-hover:block text-xl bg-[#121C22] cursor-pointer"></MdOutlineEdit>
+    return <div onClick={() => WidgetRef.current.open()}>
+        {children}
+    </div>
 };
 
 export default WidgetCloudinary;

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoHome } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { authContext } from "../../ContextHandler/AuthContext/Autthonicate";
@@ -110,13 +110,13 @@ const Profile = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen m-5 md:m-0 bg-[#121C22]">
+        <div>
 
-            <div >
+            <div className="flex items-center justify-center min-h-screen md:m-0 m-5">
                 {
                     (!myInfo) ? <div>loading...</div> :
                         <div className="border-b-2 border-black block md:flex">
-                            <div className="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-[#1B262C] shadow-md">
+                            <div className="w-full md:w-2/5 p-4 sm:p-6 lg:p-8 bg-[#121C22] shadow-md">
 
                                 <Link to='/chat' className="flex items-center gap-x-1 mb-3">
                                     <IoHome className="text-sm text-gray-400"></IoHome>
@@ -133,12 +133,12 @@ const Profile = () => {
                                     <img id="showImage" className="max-w-xs w-32 items-center border" src={myInfo?.photoUrl} alt="profile photo" />
 
 
-                                    <WidgetCloudinary updatePhoto={updatePhoto}></WidgetCloudinary>
+                                    <WidgetCloudinary updatePhoto={updatePhoto}><MdOutlineEdit className="-ml-5 text-white group-hover:block text-xl bg-[#121C22] cursor-pointer"></MdOutlineEdit></WidgetCloudinary>
 
                                 </div>
                             </div>
 
-                            <div className="w-full md:w-3/5 p-8 bg-[#1B262C] lg:ml-4 shadow-md">
+                            <div className="w-full md:w-3/5 p-8 bg-[#121C22] lg:ml-4 shadow-md">
                                 <form onSubmit={updateHandler} className="rounded shadow p-6">
                                     <div className="pb-3">
                                         <label htmlFor="name" className="font-semibold text-gray-300 block pb-1">Name</label>
