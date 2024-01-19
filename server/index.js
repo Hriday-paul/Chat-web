@@ -14,7 +14,7 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = serverio(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "https://message-friend.netlify.app",
         methods: ["GET", "POST"]
     }
 });
