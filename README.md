@@ -8,7 +8,7 @@ Useges technology
 
 > Tailwind , Web socket , React , Firebase , Express , Mongodb
 
-## Live video
+## Demo video
 [![alt text](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe9cX04shHcDAddWwIvcnTGUoAQFadb4pKwaj1qmiL2w&s)](https://drive.google.com/file/d/1LmsJduTky0ju4odNni69Cu_YtlzVYRXu/view?usp=drive_link)
 
 
