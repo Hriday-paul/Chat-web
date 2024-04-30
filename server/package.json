@@ -1,5 +1,5 @@
 {
-  "name": "Espress server",
+  "name": "server",
   "version": "1.0.0",
   "description": "expanse tracker app",
   "main": "server.js",
