@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { MdOutlineEdit } from "react-icons/md";
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword, updateProfile } from "firebase/auth";
 import toast, { Toaster } from "react-hot-toast";
-import { auth } from "../../../firebase.init";
+import { auth } from "../../firebase.init";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../Redux/Store";
 import { useAddOrUpdateUserMutation, useGetMyInfoQuery } from "../../Redux/Features/Api/Api";

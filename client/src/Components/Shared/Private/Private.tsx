@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { SyncOutlined } from '@ant-design/icons';
-import { auth } from '../../../../firebase.init';
+import { auth } from '../../../firebase.init';
 import { AppDispatch, RootState } from '../../../Redux/Store';
 import { addUser } from '../../../Redux/Features/UserSlice/UserSlice';
 import { Spin } from 'antd';

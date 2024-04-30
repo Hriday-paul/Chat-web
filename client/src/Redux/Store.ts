@@ -9,7 +9,7 @@ const store = configureStore({
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(baseApi.middleware),
-    devTools : process.env.NODE_ENV === 'development', // hide redux dev tool in production server
+    devTools : process.env.NODE_ENV === 'dev', // hide redux dev tool in production server
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

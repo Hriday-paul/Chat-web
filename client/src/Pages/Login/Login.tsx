@@ -119,9 +119,9 @@ const Login = () => {
                                 Sign-in with Github
                             </button>
                         </div>
-                        <div className="w-full flex flex-row justify-end">
+                        {/* <div className="w-full flex flex-row justify-end">
                             <p className="text-white cursor-pointer">Forgot password</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <Toaster />

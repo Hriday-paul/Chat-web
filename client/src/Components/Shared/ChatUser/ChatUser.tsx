@@ -6,7 +6,7 @@ const ChatUser = ({ data }: { data: userType }) => {
     return (
         <div>
             <div className='md:hidden'>
-                <NavLink to={`/mchat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
+                <NavLink to={`/mchat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1 border-b border-b-gray-700" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
                 }>
                     <div className="avatar z-0">
                         <div className="w-10 h-10 rounded-full z-0">
@@ -18,7 +18,7 @@ const ChatUser = ({ data }: { data: userType }) => {
                 </NavLink>
             </div>
             <div className='hidden md:block'>
-                <NavLink to={`/chat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
+                <NavLink to={`/chat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1 border-b border-b-gray-700" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
                 }>
                     <div className="avatar z-0">
                         <div className="w-10 h-10 rounded-full z-0">

@@ -9,7 +9,7 @@ import chatPhoto from "../../../public/chat-logo-design_93835-108-removebg-previ
 import ScrollUser from "../../Components/Ui/ScrollUser/ScrollUser";
 import MobileScroll from "../../Components/Ui/ScrollUser/MobileScroll";
 import { signOut } from "firebase/auth";
-import { auth } from "../../../firebase.init";
+import { auth } from "../../firebase.init";
 import { signOutUser } from "../../Redux/Features/UserSlice/UserSlice";
 
 

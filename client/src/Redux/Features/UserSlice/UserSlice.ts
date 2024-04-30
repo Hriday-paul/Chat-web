@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import UploadFileCload from '../../../Hooks/UploadFileCload/UploadFileCload';
 import { GithubAuthProvider, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, updateProfile } from 'firebase/auth';
-import { auth } from '../../../../firebase.init';
+import { auth } from '../../../firebase.init';
 import UseAxiosPublic from '../../../Hooks/UseAxiosPublic/UseAxiosPublic';
 
 type userStateType = {
