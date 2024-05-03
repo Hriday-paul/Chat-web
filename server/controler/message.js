@@ -10,8 +10,14 @@ const getMessage = async (req, res) => {
             ]
         }
 
-        const result = await messageList.find(query).sort({ time: 1 })
-        res.send(result)
+        // get message
+        const result = await messageList.find(query).sort({ time: -1 }).limit(limit);
+
+        // get messages length
+        const totalMessage = await messageList.countDocuments(query);
+        const hasMore = (totalMessage-limit > 0) ? true : false;
+        
+        res.send({messages : result, hasMore})
     }
     catch (err) {
         res.status(400).send({ err: err.message });

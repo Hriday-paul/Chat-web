@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, ScrollRestoration } from "react-router-dom";
 import { AppDispatch, RootState } from "../../Redux/Store";
 import { FaRegUser } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
@@ -11,12 +11,15 @@ import MobileScroll from "../../Components/Ui/ScrollUser/MobileScroll";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase.init";
 import { signOutUser } from "../../Redux/Features/UserSlice/UserSlice";
+import { Modal } from "antd";
+import SearchModal from "../../Components/Shared/SearchModal/SearchModal";
 
 
 const ChatHome = () => {
     const [isShowProfile, setShowProfile] = useState(false);
     const { name, email, photo } = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch<AppDispatch>();
+    const [openSearchModal, setOpenSearchModal] = useState<boolean>(false);
 
     const logOutUser = () => {
         signOut(auth);
@@ -24,15 +27,32 @@ const ChatHome = () => {
     }
 
     const onSearch = () => {
-        
+        console.log("called");
+        setOpenSearchModal(true)
+    }
+
+    const closeModal = () => {
+        setOpenSearchModal(false);
     }
 
     return (
         <div>
-            <div className="mx-w-7xl mx-auto">
-                
-                <div className="md:grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 hidden">
+            {/* // search modal */}
 
+            <Modal
+                centered
+                open={openSearchModal}
+                onOk={() => setOpenSearchModal(false)}
+                onCancel={closeModal}
+                width={800}
+                footer={null}
+            >
+                <SearchModal closeModal={closeModal} />
+            </Modal>
+
+            <div className="mx-w-7xl mx-auto">
+
+                <div className="md:grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 hidden">
                     {/* large device handle */}
                     <div id="scrollableDiv" className="lg:col-span-1 md:col-span-2 users-scroll bg-[#121C22] h-screen overflow-y-auto px-1 shadow-xl border-r border-r-gray-700">
                         <div className="flex items-center justify-between gap-x-3 p-4 sticky top-0 bg-[#121C22] z-50">
@@ -73,8 +93,6 @@ const ChatHome = () => {
                                         </Link>
                                     </div>
                                 </div>
-
-
                             </div>
 
                             <div className="relative w-full">
@@ -82,9 +100,10 @@ const ChatHome = () => {
                                     <IoSearchOutline className="text-gray-500 text-2xl"></IoSearchOutline>
                                 </span>
 
-                                <input onChange={onSearch} type="search" name="q" className="py-2 text-sm text-white bg-[#1B262C] rounded-md pl-10 pr-2 focus:outline-none w-full" placeholder="Search..." autoComplete="off" />
+                                <div onClick={onSearch} className="py-2 text-sm text-white bg-[#1B262C] rounded-md pl-10 pr-2 focus:outline-none w-full cursor-text" >
+                                    <p className='text-sm text-gray-400'>Search...</p>
+                                </div>
                             </div>
-
                         </div>
 
                         <img className="h-32 mx-auto -mt-2" src={chatPhoto} alt="chat photo" />
@@ -148,7 +167,9 @@ const ChatHome = () => {
                                     <IoSearchOutline className="text-gray-500 text-2xl"></IoSearchOutline>
                                 </span>
 
-                                <input onChange={onSearch} type="search" name="q" className="py-2 text-sm text-white bg-[#1B262C] rounded-md pl-10 pr-2 focus:outline-none w-full" placeholder="Search..." autoComplete="off" />
+                                <div onClick={onSearch} className="py-2 text-sm text-white bg-[#1B262C] rounded-md pl-10 pr-2 focus:outline-none w-full cursor-text" >
+                                    <p className='text-sm text-gray-400'>Search...</p>
+                                </div>
                             </div>
 
                         </div>
@@ -161,6 +182,7 @@ const ChatHome = () => {
 
                 </div>
             </div>
+            <ScrollRestoration />
         </div>
     );
 };

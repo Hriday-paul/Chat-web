@@ -13,7 +13,7 @@ router.put('/updateUser', updateUser);
 router.get('/users', someUsers);
 
 //search user
-router.get('/users/:searchTxt', serchUser)
+router.get('/searchUsers', serchUser)
 
 //get single user
 router.get('/user/:id', singleUser)

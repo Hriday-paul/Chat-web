@@ -3,9 +3,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../Redux/Store";
 import SendReceiveMessage from "../SendReceiveMessage/SendReceiveMessage";
 import MessageTypeChecker from "../../Shared/Message/MessageTypeChecker/MessageTypeChecker";
-import SkeletonMessage from "../SkeletonMessage/SkeletonMessage";
-import { userType } from "../../../Redux/Features/Api/Api";
-import UseAxiosPublic from "../../../Hooks/UseAxiosPublic/UseAxiosPublic";
+import { useGetMessagesQuery, userType } from "../../../Redux/Features/Api/Api";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
+import { SyncOutlined } from '@ant-design/icons';
+import { MdErrorOutline } from "react-icons/md";
+import { ScrollRestoration } from "react-router-dom";
 
 export interface messageType {
     _id: string;
@@ -28,12 +31,13 @@ export interface messageType {
     time: number
 }
 
-const ChatBoxMessages = ({ friendDetails, frLoading }: { friendDetails: userType; frLoading : boolean }) => {
+const ChatBoxMessages = ({ friendDetails }: { friendDetails: userType }) => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const { email: myEmail } = useSelector((state: RootState) => state.user);
-    const [isLoading, setLoading] = useState<boolean>(true);
+    const limit = 15;
+    const [messageCount, setMessageCount] = useState(limit);
+    const { data, isSuccess, isError } = useGetMessagesQuery({ m: myEmail, f: friendDetails.email, limit: messageCount }, { refetchOnMountOrArgChange: true });
     const [messages, setMassages] = useState<messageType[]>([]);
-    const axiosPublic = UseAxiosPublic();
 
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
@@ -42,35 +46,64 @@ const ChatBoxMessages = ({ friendDetails, frLoading }: { friendDetails: userType
     };
 
     useEffect(() => {
-        if (friendDetails) {
-            axiosPublic.get(`/messages?m=${myEmail}&f=${friendDetails.email}`)
-                .then(({ data }) => {
-                    setMassages(data)
-                    setLoading(false)
-                })
+        if (isSuccess) {
+            setMassages(data.messages);
         }
-    }, [friendDetails, myEmail]);
+    }, [data, isSuccess]);
 
     const updateMessage = (msg: any) => {
-        setMassages([...messages, msg])
+        setMassages([msg, ...messages]);
+        scrollToBottom();
     }
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
+    const handleMore = () => {
+        setMessageCount(messageCount + limit);
+    };
 
     return (
         <div >
-            <div className="flex-grow mb-5 min-h-[calc(100vh-144px)] overflow-auto">
-                {
-                    (isLoading || frLoading) ? <SkeletonMessage /> : messages?.map((msg, indx) => {
-                        return <MessageTypeChecker key={msg._id || (msg.msg?.message+indx) || msg.msg.message?.url} msg={msg} frInfo={friendDetails} />
-                    })
-                }
-                <div ref={chatContainerRef}></div>
-            </div>
+            {
+                isError ? <div>
+                    <div className="flex justify-center items-center mb-5 h-[calc(100vh-144px)]">
+                        <div className="space-y-2">
+                            <MdErrorOutline className="text-3xl md:text-4xl lg:text-6xl text-white text-center mx-auto" />
+                            <h1 className="text-base md:text-xl lg:text-2xl text-white text-center ">Something Wrong</h1>
+                            <p className="text-xs md:text-sm lg:text-base text-center text-gray-300">Check your internet connection & try again</p>
+                        </div>
+                    </div>
+                </div>
+                    :
+                    <div id="scrollableMessage" className=" h-[calc(100vh-124px)] overflow-auto flex flex-col-reverse">
+
+                        <InfiniteScroll
+                            dataLength={data?.messages.length || 0}
+                            next={handleMore}
+                            hasMore={data?.hasMore || false}
+                            style={{ display: 'flex', flexDirection: 'column-reverse' }}
+                            inverse={true}
+                            initialScrollY={0}
+                            loader={<div className="py-2 flex justify-center items-center mt-1">
+                                <div className="bg-gray-700 shadow-gray-900 shadow-xl h-9 w-9 mx-auto flex justify-center items-center rounded-full">
+                                    <Spin spinning={true} indicator={<SyncOutlined style={{ fontSize: 20, color: 'white' }} spin />} />
+                                </div>
+                            </div>}
+                            scrollableTarget="scrollableMessage"
+                        >
+                            {
+                                messages?.map((msg, indx) => {
+                                    return <MessageTypeChecker key={msg._id || (msg.msg?.message + indx) || msg.msg.message?.url} msg={msg} frInfo={friendDetails} />
+                                })
+                            }
+
+                        </InfiniteScroll>
+
+                    </div>}
+
+            <div ref={chatContainerRef}></div>
 
             <SendReceiveMessage friendDetails={friendDetails} refetch={updateMessage} />
+
+            <ScrollRestoration />
         </div>
     );
 };

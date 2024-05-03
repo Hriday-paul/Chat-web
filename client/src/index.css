@@ -13,12 +13,12 @@
 .rce-avatar{
     border-radius: 50%;
 }
-.chat-box::-webkit-scrollbar{
+#scrollableMessage::-webkit-scrollbar{
     width: 6px;
     background-color: transparent;
 }
-.chat-box::-webkit-scrollbar-thumb{
-    background-color:  rgb(44, 44, 44);
+#scrollableMessage::-webkit-scrollbar-thumb{
+    background-color:  gray;
 }
 .users-scroll::-webkit-scrollbar{
     width: 4px;
@@ -39,6 +39,9 @@
 }
 .rce-mbox-time{
     color: gray !important;
+}
+.ant-modal-content{
+    padding: 0 !important;
 }
 .ant-modal-content, .ant-modal-title{
     background-color: #121C22 !important;

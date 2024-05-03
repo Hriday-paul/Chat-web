@@ -27,7 +27,7 @@ const ChatBox = () => {
 
     return (
         <div>
-            <div id="scrollableMessage" className="h-screen chat-box w-full overflow-y-auto bg-[url('https://i.ibb.co/NyZkx2Q/e86c13b0-4e16-4c56-b5b5-1a90acbea77c-naruwhatsappwallpaperdark.webp')]">
+            <div className="h-screen chat-box w-full overflow-y-auto bg-[url('https://i.ibb.co/NyZkx2Q/e86c13b0-4e16-4c56-b5b5-1a90acbea77c-naruwhatsappwallpaperdark.webp')]">
                 <div className="bg-[#121C22] text-gray-200 shadow-md p-2 flex gap-x-3 items-center sticky top-0 z-50">
                     <FaArrowLeft onClick={() => navig('/chat')} className="text-2xl md:hidden cursor-pointer mr-2"></FaArrowLeft>
 
@@ -45,7 +45,7 @@ const ChatBox = () => {
 
                 </div>
 
-                {frDetails && <ChatBoxMessages frLoading={frloading} friendDetails={frDetails} />}   
+                {frDetails && <ChatBoxMessages friendDetails={frDetails} />}   
 
                 <Toaster />
             </div>

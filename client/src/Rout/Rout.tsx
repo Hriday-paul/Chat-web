@@ -8,7 +8,6 @@ import ChatHome from "../Pages/ChatHome/ChatHome";
 import ChatBox from "../Components/Shared/ChatBox/ChatBox";
 import Profile from "../Pages/Profile/Profile";
 
-
 const Rout = createBrowserRouter([
     {
         path: '/',
@@ -44,7 +43,8 @@ const Rout = createBrowserRouter([
     {
         path: '/register',
         element: <Register />
-    }
+    },
+    
 ])
 
 export default Rout;

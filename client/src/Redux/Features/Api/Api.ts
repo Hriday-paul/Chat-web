@@ -23,6 +23,11 @@ type mydataType = {
     _id: string;
 }
 
+type responsemsg = {
+    messages : messageType[];
+    hasMore : boolean
+}
+
 const baseApi = createApi({
     reducerPath: 'api',
     tagTypes: ['myInfo'],
@@ -34,12 +39,15 @@ const baseApi = createApi({
         getFriendsDetails: builder.query<userType, string>({
             query: (id) => `/user/${id}`,
         }),
-        getMessages: builder.query<messageType[], {m : string; f : string; limit : number}>({
+        getMessages: builder.query<responsemsg, {m : string; f : string; limit : number}>({
             query: ({m, f, limit}) => `/messages?m=${m}&f=${f}&limit=${limit}`,
         }),
         getMyInfo : builder.query<mydataType, {email : string}>({
             query: ({email}) => `/myInfo/${email}`,
             providesTags: ['myInfo']
+        }),
+        gerSearchUser : builder.query<userType[], {searchTxt : string, me: string}>({
+            query: ({searchTxt, me}) => `/searchUsers?searchTxt=${searchTxt}&me=${me}`,
         }),
         addOrUpdateUser: builder.mutation({
             query: (updatedData) => ({
@@ -52,5 +60,5 @@ const baseApi = createApi({
     })
 });
 
-export const { useGetFriendsQuery, useGetFriendsDetailsQuery, useGetMessagesQuery, useGetMyInfoQuery, useAddOrUpdateUserMutation } = baseApi;
+export const { useGetFriendsQuery, useGetFriendsDetailsQuery, useGetMessagesQuery, useGetMyInfoQuery, useAddOrUpdateUserMutation, useGerSearchUserQuery } = baseApi;
 export default baseApi;

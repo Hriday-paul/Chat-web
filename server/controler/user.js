@@ -14,7 +14,7 @@ const addUser = async (req, res) => {
         res.status(200).send(result);
     } catch (err) {
         console.log(err.message);
-        res.status(402).send({ err : err.message })
+        res.status(402).send({ err: err.message })
     }
 };
 
@@ -38,24 +38,68 @@ const someUsers = async (req, res) => {
     try {
         const dataCount = parseInt(req.query.dataCount)
         const my = req.query.i;
-        const users = await userList.find({email : {$ne : my}}).select('-password').limit(dataCount)
+        const users = await userList.find({ email: { $ne: my } }).select('-password').limit(dataCount);
+
         const totalUsers = await userList.estimatedDocumentCount();
-        const hasMore = (totalUsers-dataCount > 0) ? true : false;
-        res.status(200).send({friends : users, hasMore});
+        const hasMore = (totalUsers - dataCount > 0) ? true : false;
+        res.status(200).send({ friends: users, hasMore });
     }
     catch (err) {
-        res.status(402).send({ err : err.message })
+        res.status(402).send({ err: err.message })
     }
 }
 
 // find user
 const serchUser = async (req, res) => {
     try {
+        const searchText = req.query.searchTxt;
+        const me = req.query.me;
+        if (searchText === '' || !searchText) return res.send([]);
         const query = {
-            name: {
-                $regex: req.params.searchTxt,
-                $options: 'i'
-            }
+            $or: [
+                {
+                    $and: [
+                        {
+                            name: {
+                                $regex: searchText,
+                                $options: 'i'
+                            },
+                        },
+                        {
+                            email: { $ne: me }
+                        }
+                    ]
+
+                },
+                {
+                    $and: [
+                        {
+                            email: {
+                                $regex: searchText,
+                                $options: 'i'
+                            },
+                        },
+                        {
+                            email: { $ne: me }
+                        }
+                    ]
+
+                },
+                {
+                    $and: [
+                        {
+                            phone: {
+                                $regex: searchText,
+                                $options: 'i'
+                            },
+                        },
+                        {
+                            email: { $ne: me }
+                        }
+                    ]
+
+                }
+            ]
         }
         const users = await userList.find(query).select('-password');
         res.status(200).send(users);
@@ -73,7 +117,7 @@ const singleUser = async (req, res) => {
         res.status(200).send(users);
     }
     catch (err) {
-        res.status(402).send({ err : err.message })
+        res.status(402).send({ err: err.message })
     }
 }
 

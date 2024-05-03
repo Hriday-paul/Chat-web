@@ -6,7 +6,7 @@ const http = require('http');
 const serverio = require('socket.io');
 const connectDb = require("./config/connectDb");
 dotenv.config();
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
 //databse call
 connectDb();

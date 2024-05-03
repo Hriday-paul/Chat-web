@@ -5,6 +5,7 @@ import { userType } from '../../../Redux/Features/Api/Api';
 const ChatUser = ({ data }: { data: userType }) => {
     return (
         <div>
+            {/* // mobile view navigate */}
             <div className='md:hidden'>
                 <NavLink to={`/mchat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1 border-b border-b-gray-700" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
                 }>
@@ -17,6 +18,8 @@ const ChatUser = ({ data }: { data: userType }) => {
 
                 </NavLink>
             </div>
+
+            {/* // large screen navigate */}
             <div className='hidden md:block'>
                 <NavLink to={`/chat/${data._id}`} className={({ isActive }) => isActive ? " flex flex-row gap-x-2 items-center px-3 py-2 shadow-lg bg-[#1B262C] hover:shadow-2xl duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1 border-b border-b-gray-700" : "flex flex-row gap-x-2 items-center px-3 py-2 border-b border-b-gray-700 hover:shadow-lg duration-100 cursor-pointer rounded-md hover:bg-[#1B262C] my-1"
                 }>
